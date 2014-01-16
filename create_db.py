@@ -2,6 +2,7 @@
 import storage
 import os
 import audiotools
+import sys
 
 def store_dir(d):
     store = storage.HashStore()
@@ -9,15 +10,19 @@ def store_dir(d):
         for filename in files:
             filename = root + '/' + filename
             try:
+                #print "Storing", filename
                 store.store_file(filename)
                 print "Stored %s" % filename
             except audiotools.UnsupportedFile:
                 print "Skipping unsupported file %s" % filename
             except Exception, e:
-                print e
+                print e, filename
 
 def main():
-    d = raw_input("Enter the path to the music directory: ")
+    if len(sys.argv) > 1:
+        d = sys.argv[1]
+    else:
+        d = raw_input("Enter the path to the music directory: ")
     store_dir(d)
     print "Done."
 
