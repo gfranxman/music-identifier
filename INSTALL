@@ -1,0 +1,16 @@
+for OSX
+=======
+brew update
+brew install swig
+brew install portaudio
+brew install libcdio   # seems to be no longer available, libcdio-0.92.tar.gz
+pip install numpy
+pip install pycdio
+pip install pyaudio
+git clone https://github.com/tuffy/python-audio-tools.git
+make 
+sudo make install
+
+# prepare the database, and load some initial files
+./create_db.py  # and give it a folder to ingest
+./test_driver.py 
