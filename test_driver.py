@@ -11,17 +11,19 @@ except:
 def main():
     #audio_dir = raw_input("Enter audio directory: ")
     #test_directory(audio_dir)
+
+    print 'appscript:', has_appscript
     if has_appscript:
         itunes = appscript.app('iTunes')
         library = itunes.playlists['Library']
 
 
     while True:
-        inp = raw_input("Press return to start listening. Type 'quit' when you're bored.")
+        inp = '!'#raw_input("Press return to start listening. Type 'quit' when you're bored.")
         if inp == 'quit':
             break
         try:
-            song, time = guess.identify_from_mic()
+            song, time = guess.identify_from_mic( 15 )
         except IOError:
             print "Mic input failed."
             continue
@@ -34,7 +36,8 @@ def main():
             seconds = time % 60
             print "%d:%d into song" % (minutes, seconds)
             print ""
-
+            name = os.path.splitext( os.path.basename( song.track_name ) )[0]
+            os.system( "say %s" % name )
             if has_appscript:
                 itunes_track = library.search(for_=song.track_name + ' ' + song.artist)
                 if len(itunes_track) > 0:

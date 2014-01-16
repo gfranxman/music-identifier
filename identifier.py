@@ -57,6 +57,7 @@ class AudioChunk(object):
         # Absolute value because we don't care for complex numbers.
         frequencies = abs(fft.rfft(numpy_array))
         # Bin into 40-80, 80-120, 120-180, 180-300
+        #print "frequencies", len(frequencies), frequencies
         if len(frequencies) < 181:
             return None
         return self(time, [get_max(frequencies,x[0],x[1]) for x in ((40,80), (80,120), (120,180), (180, 300))])

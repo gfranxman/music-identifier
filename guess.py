@@ -86,9 +86,9 @@ def identify_from_mic(seconds_to_sample=30):
 
     worker = ProcessData()
     worker.start()
-    print "sampling...", ;sys.stdout.flush()
+    #print "sampling...", ;sys.stdout.flush()
     while time < seconds_to_sample:
-        print ".", ;sys.stdout.flush()
+        #print ".", ;sys.stdout.flush()
         data = stream.read(4096)
         worker.push_data(time, data)
         time += (4096/44100.0)
