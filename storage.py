@@ -7,6 +7,9 @@ ChunkHash = namedtuple('ChunkHash', ('time', 'hash', 'song_id'))
 class HashStore(object):
     def __init__(self):
         self.conn = sqlite3.connect('music.db')
+        self.conn.execute( '''create table if not exists songs( track_name, artist )''' )
+        self.conn.execute( '''create table if not exists song_chunks(time, hash, song_id)''')
+
 
     def store_file(self, filename):
         s = identifier.Song.from_file(filename)
