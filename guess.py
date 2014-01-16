@@ -5,6 +5,7 @@ import storage
 import identifier
 import Queue
 import time
+import sys
 
 class ProcessData(threading.Thread):
     def __init__(self):
@@ -75,7 +76,7 @@ class ProcessData(threading.Thread):
                         self.output = (song, chain[2])
                         return
 
-def identify_from_mic():
+def identify_from_mic(seconds_to_sample=30):
     p = pyaudio.PyAudio()
     # This is the same set of parameters we used (or, at least, assume) for decoding audio.
     # These must match for sane output.
@@ -85,7 +86,9 @@ def identify_from_mic():
 
     worker = ProcessData()
     worker.start()
-    while time < 30:
+    print "sampling...", ;sys.stdout.flush()
+    while time < seconds_to_sample:
+        print ".", ;sys.stdout.flush()
         data = stream.read(4096)
         worker.push_data(time, data)
         time += (4096/44100.0)
@@ -94,6 +97,7 @@ def identify_from_mic():
             return worker.output
 
     # Wait for our worker to catch up if we've bailed out
+    print
     worker.abandon()
     worker.join()
     if worker.output is not None:
