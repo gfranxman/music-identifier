@@ -23,7 +23,7 @@ def main():
         if inp == 'quit':
             break
         try:
-            song, time = guess.identify_from_mic( 15 )
+            song, time = guess.identify_from_mic( 60, min_to_match=5 )
         except IOError:
             print "Mic input failed."
             continue
